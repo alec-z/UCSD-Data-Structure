@@ -31,21 +31,20 @@ vector<Query> read_queries() {
 void write_responses(const vector<string>& result) {
   for (size_t i = 0; i < result.size(); ++i) std::cout << result[i] << "\n";
 }
-vector<string> contacts(100000000, "");
 
 vector<string> process_queries_new(const vector<Query>& queries) {
   vector<string> result;
-  vector<string> contacts(100000000, "");
+  vector<string> * contacts = new vector<string>(10000000, "");
 
   // Keep list of all existing (i.e. not deleted yet) contacts.
 
   for (size_t i = 0; i < queries.size(); ++i)
     if (queries[i].type == "add") {
-      contacts[queries[i].number] = (queries[i].name);
+      (*contacts)[queries[i].number] = (queries[i].name);
     } else if (queries[i].type == "del") {
-      contacts[queries[i].number] = "";
+      (*contacts)[queries[i].number] = "";
     } else {
-      string response = contacts[queries[i].number];
+      string response = (*contacts)[queries[i].number];
       if (response == "") {
         response = "not found";
       }
